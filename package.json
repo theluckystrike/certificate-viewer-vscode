@@ -1,0 +1,336 @@
+{
+  "name": "zovo-certificate-viewer",
+  "displayName": "Certificate Viewer, X509 & PEM",
+  "description": "Certificate viewer for VS Code: open PEM, CRT, CER, DER, P7B, PFX, P12, CSR and KEY files as a readable card with subject, issuer, expiry and days left, SANs, key type, fingerprints and every extension. Chain tree, hover on PEM blocks in any file. Offline.",
+  "version": "0.1.1",
+  "publisher": "zovo",
+  "license": "MIT",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#1D2B36",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theluckystrike/certificate-viewer-vscode"
+  },
+  "bugs": {
+    "url": "https://github.com/theluckystrike/certificate-viewer-vscode/issues"
+  },
+  "homepage": "https://github.com/theluckystrike/certificate-viewer-vscode#readme",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "certificate viewer",
+    "x509",
+    "pem",
+    "ssl certificate",
+    "pfx"
+  ],
+  "main": "./src/extension.js",
+  "activationEvents": [
+    "onUri",
+    "onStartupFinished"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": true
+  },
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "certViewer.editor",
+        "displayName": "Certificate Viewer",
+        "selector": [
+          {
+            "filenamePattern": "*.pem"
+          },
+          {
+            "filenamePattern": "*.crt"
+          },
+          {
+            "filenamePattern": "*.cer"
+          },
+          {
+            "filenamePattern": "*.der"
+          },
+          {
+            "filenamePattern": "*.p7b"
+          },
+          {
+            "filenamePattern": "*.p7c"
+          },
+          {
+            "filenamePattern": "*.p12"
+          },
+          {
+            "filenamePattern": "*.pfx"
+          },
+          {
+            "filenamePattern": "*.csr"
+          },
+          {
+            "filenamePattern": "*.key"
+          }
+        ],
+        "priority": "default"
+      }
+    ],
+    "commands": [
+      {
+        "command": "certViewer.openWithViewer",
+        "title": "Open in Certificate Viewer",
+        "category": "Certificate Viewer",
+        "icon": "$(shield)"
+      },
+      {
+        "command": "certViewer.openSample",
+        "title": "Open the Sample Certificate Chain",
+        "category": "Certificate Viewer"
+      },
+      {
+        "command": "certViewer.openSampleYaml",
+        "title": "Open the Sample Kubernetes Secret (hover demo)",
+        "category": "Certificate Viewer"
+      },
+      {
+        "command": "certViewer.showPemAt",
+        "title": "Show the Certificates of This File",
+        "category": "Certificate Viewer"
+      },
+      {
+        "command": "certViewer.openWalkthrough",
+        "title": "Get Started",
+        "category": "Certificate Viewer"
+      },
+      {
+        "command": "certViewer.moreViewers",
+        "title": "More free tools by Zovo",
+        "category": "Certificate Viewer"
+      },
+      {
+        "command": "certViewer.supportDeveloper",
+        "title": "Support the developer",
+        "category": "Certificate Viewer"
+      },
+      {
+        "command": "certViewer.scan",
+        "title": "Workspace Expiry Scan (Pro)",
+        "category": "Certificate Viewer",
+        "icon": "$(calendar)"
+      },
+      {
+        "command": "certViewer.check",
+        "title": "Chain and Key Check (Pro)",
+        "category": "Certificate Viewer",
+        "icon": "$(checklist)"
+      },
+      {
+        "command": "certViewer.convert",
+        "title": "Convert PEM, DER, PFX or P7B (Pro)",
+        "category": "Certificate Viewer",
+        "icon": "$(arrow-swap)"
+      },
+      {
+        "command": "certViewer.zovoPro.scan",
+        "title": "Zovo Pro: Certificate expiry scan"
+      },
+      {
+        "command": "certViewer.zovoPro.check",
+        "title": "Zovo Pro: Chain and key check"
+      },
+      {
+        "command": "certViewer.zovoPro.convert",
+        "title": "Zovo Pro: Convert PEM, DER, PFX or P7B"
+      },
+      {
+        "command": "certViewer.getPro",
+        "title": "Get Zovo Pro (USD 19 once, all 22 Zovo extensions)",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "certViewer.payWithPayPal",
+        "title": "Pay for Zovo Pro with PayPal (USD 19, team of 5 USD 59)",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "certViewer.unlockWithSponsors",
+        "title": "I already paid: unlock with GitHub Sponsors",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "certViewer.enterLicenseKey",
+        "title": "Enter Zovo Pro license key",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "certViewer.removeLicense",
+        "title": "Remove Zovo Pro from this editor",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "certViewer.payByCard",
+        "title": "Pay for Zovo Pro by card (USD 19)",
+        "category": "Zovo Pro"
+      },
+      {
+        "command": "certViewer.enterKey",
+        "title": "Enter a key",
+        "category": "Zovo Pro"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "certViewer.openWithViewer",
+          "when": "!activeCustomEditorId && resourceExtname =~ /^\\.(pem|crt|cer|der|p7b|p7c|p12|pfx|csr|key)$/i",
+          "group": "navigation@9"
+        },
+        {
+          "command": "certViewer.check",
+          "when": "activeCustomEditorId == 'certViewer.editor' && config.certViewer.showProTools",
+          "group": "1_cert@1"
+        },
+        {
+          "command": "certViewer.convert",
+          "when": "activeCustomEditorId == 'certViewer.editor' && config.certViewer.showProTools",
+          "group": "1_cert@2"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "certViewer.openWithViewer",
+          "when": "resourceExtname =~ /^\\.(pem|crt|cer|der|p7b|p7c|p12|pfx|csr|key|ya?ml|json|env)$/i && !explorerResourceIsFolder",
+          "group": "navigation@9"
+        },
+        {
+          "command": "certViewer.zovoPro.check",
+          "when": "resourceExtname =~ /^\\.(pem|crt|cer|der|p7b|p7c|p12|pfx|csr|key)$/i && !explorerResourceIsFolder && config.certViewer.showProTools",
+          "group": "zovoPro@1"
+        },
+        {
+          "command": "certViewer.zovoPro.convert",
+          "when": "resourceExtname =~ /^\\.(pem|crt|cer|der|p7b|p7c|p12|pfx|key)$/i && !explorerResourceIsFolder && config.certViewer.showProTools",
+          "group": "zovoPro@2"
+        },
+        {
+          "command": "certViewer.zovoPro.scan",
+          "when": "explorerResourceIsFolder && config.certViewer.showProTools",
+          "group": "zovoPro@3"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "certViewer.scan",
+          "when": "config.certViewer.showProTools"
+        },
+        {
+          "command": "certViewer.check",
+          "when": "config.certViewer.showProTools"
+        },
+        {
+          "command": "certViewer.convert",
+          "when": "config.certViewer.showProTools"
+        },
+        {
+          "command": "certViewer.zovoPro.scan",
+          "when": "false"
+        },
+        {
+          "command": "certViewer.zovoPro.check",
+          "when": "false"
+        },
+        {
+          "command": "certViewer.zovoPro.convert",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Certificate Viewer",
+      "properties": {
+        "certViewer.hover": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the common name, issuer and expiry when the pointer rests on a PEM block (or a base64 PEM, as in Kubernetes secrets) in any file."
+        },
+        "certViewer.maxFileSizeMB": {
+          "type": "number",
+          "default": 50,
+          "minimum": 1,
+          "description": "Files larger than this open with a message instead of the certificate card."
+        },
+        "certViewer.showProTools": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the Zovo Pro tools (expiry scan, chain and key check, convert) in the Command Palette, the Explorer menu and the viewer toolbar. Everything free stays visible."
+        },
+        "certViewer.askForRating": {
+          "type": "boolean",
+          "default": true,
+          "description": "Ask once for a Marketplace rating after certificates opened without an error on two occasions at least 30 minutes apart. \"Later\" asks one more time after 7 days, \"No thanks\" never asks again. Nothing is sent anywhere."
+        },
+        "certViewer.showSupportLinks": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the small Rate, More free tools and Zovo Pro links at the bottom of the viewer. Nothing is sent anywhere."
+        }
+      }
+    },
+    "walkthroughs": [
+      {
+        "id": "certViewer.start",
+        "title": "Get started with the Certificate Viewer",
+        "description": "Read certificates, keys and bundles in VS Code.",
+        "steps": [
+          {
+            "id": "open",
+            "title": "Open a certificate",
+            "description": "Click any .pem, .crt, .cer, .der, .p7b, .pfx, .p12, .csr or .key file. It opens as a card with the subject, the issuer, the days left and every extension. A bundle shows its chain as a tree.\n[Open the sample certificate chain](command:certViewer.openSample)",
+            "media": {
+              "image": "images/screenshot.png",
+              "altText": "A certificate chain open in VS Code: the chain tree on the left and the certificate card with subject, validity and names on the right."
+            },
+            "completionEvents": [
+              "onCommand:certViewer.openSample"
+            ]
+          },
+          {
+            "id": "hover",
+            "title": "Hover over PEM blocks in any file",
+            "description": "Rest the pointer on a certificate inside YAML, JSON or a .env file, also a base64 one in a Kubernetes secret. A hover shows its name, issuer and expiry.\n[Open the sample Kubernetes secret](command:certViewer.openSampleYaml)",
+            "media": {
+              "markdown": "walkthrough/hover.md"
+            },
+            "completionEvents": [
+              "onCommand:certViewer.openSampleYaml"
+            ]
+          },
+          {
+            "id": "zovo-related",
+            "title": "Tools that often go with certificates",
+            "description": "These free Zovo extensions help with the files around certificates. A link opens the extension page, and you choose there whether to install it.\n[Hex Viewer](command:extension.open?%5B%22zovo.zovo-hex-viewer%22%5D)\n[Dotenv](command:extension.open?%5B%22zovo.zovo-dotenv%22%5D)",
+            "media": {
+              "markdown": "walkthrough/related.md"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "test": "node scripts/test.js",
+    "package": "npx -y @vscode/vsce@3 package --no-dependencies"
+  },
+  "devDependencies": {},
+  "sponsor": {
+    "url": "https://github.com/sponsors/theluckystrike/sponsorships?tier_id=679878"
+  }
+}
